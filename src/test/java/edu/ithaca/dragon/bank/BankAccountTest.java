@@ -23,17 +23,30 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
+        //valid address; not a boundary value
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
+        //blank address equivalence class; boundary value
         assertFalse( BankAccount.isEmailValid(""));
+        //blank suffix equivalence class; also a boundary value
         assertFalse( BankAccount.isEmailValid("josh@"));
+        //repeated at sign; not a boundary value
         assertFalse( BankAccount.isEmailValid("address@@gmail.com"));
+        //missing a domain name; boundary value
         assertFalse( BankAccount.isEmailValid("address@server"));
+        //special character not proceeded by a letter; not a boundary value
         assertFalse( BankAccount.isEmailValid(".place@gmail.com"));
+        //invalid character; not a boundary value
         assertFalse( BankAccount.isEmailValid("addre#ss@place.com"));
+        //invalid domain name; not a boundary value
         assertFalse( BankAccount.isEmailValid("addy@place.c"));
+        //long valid address; not a boundary value
         assertTrue( BankAccount.isEmailValid("address@gmail.com"));
+        //invalid character; not a boundary value
         assertFalse( BankAccount.isEmailValid("address@gmail.c#m"));
+        //repeated period; not a boundary value
         assertFalse( BankAccount.isEmailValid("address@gmail..com"));
+
+        //doesn't have an example of a special character not followed by a letter or number
     }
 
     @Test
