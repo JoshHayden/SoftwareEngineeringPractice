@@ -11,46 +11,67 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals(200, bankAccount.getBalance());
+
+        bankAccount = new BankAccount("a@b.com", 0);
+        assertEquals(0, bankAccount.getBalance());
     }
 
     @Test
-    void withdrawTest() {
+    void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
-
         assertEquals(100, bankAccount.getBalance());
+
+        bankAccount = new BankAccount("a@b.com", 300);
+        bankAccount.withdraw(300);
+        assertEquals(0, bankAccount.getBalance());
+
+        assertThrows(InsufficientFundsException.class, ()-> new BankAccount("a@b.com", 100).withdraw(101));
+
+        bankAccount = new BankAccount("a@b.com", 300);
+        bankAccount.withdraw(-1);
+        assertEquals(300, bankAccount.getBalance());
+
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.withdraw(-300);
+        assertEquals(200, bankAccount.getBalance());
+
     }
 
     @Test
     void isEmailValidTest(){
-        //valid address; not a boundary value
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        //blank address equivalence class; boundary value
         assertFalse( BankAccount.isEmailValid(""));
-        //blank suffix equivalence class; also a boundary value
-        assertFalse( BankAccount.isEmailValid("josh@"));
-        //repeated at sign; not a boundary value
-        assertFalse( BankAccount.isEmailValid("address@@gmail.com"));
-        //missing a domain name; boundary value
-        assertFalse( BankAccount.isEmailValid("address@server"));
-        //special character not proceeded by a letter; not a boundary value
-        assertFalse( BankAccount.isEmailValid(".place@gmail.com"));
-        //invalid character; not a boundary value
-        assertFalse( BankAccount.isEmailValid("addre#ss@place.com"));
-        //invalid domain name; not a boundary value
-        assertFalse( BankAccount.isEmailValid("addy@place.c"));
-        //long valid address; not a boundary value
-        assertTrue( BankAccount.isEmailValid("address@gmail.com"));
-        //invalid character; not a boundary value
-        assertFalse( BankAccount.isEmailValid("address@gmail.c#m"));
-        //repeated period; not a boundary value
-        assertFalse( BankAccount.isEmailValid("address@gmail..com"));
+        assertFalse(BankAccount.isEmailValid("jo#sh@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("josh @gmail.com"));
 
-        //doesn't have an example of a special character not followed by a letter or number
+        assertTrue(BankAccount.isEmailValid("josh@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("joshgmail.com"));
+        assertFalse(BankAccount.isEmailValid("josh@gm@il.com"));
+
+        assertTrue(BankAccount.isEmailValid("name@place.com"));
+        assertFalse(BankAccount.isEmailValid("name@placecom"));
+        assertFalse(BankAccount.isEmailValid("name@plac.e.com"));
+
+        assertTrue(BankAccount.isEmailValid("name@place.co"));
+        assertFalse(BankAccount.isEmailValid("name@place.c"));
+
+        assertTrue(BankAccount.isEmailValid("j.o.s.h@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("j.o..s.h@gmail.com"));
+        assertFalse(BankAccount.isEmailValid(".jo.sh@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("jo.sh.@gmail.com"));
+
+        assertTrue(BankAccount.isEmailValid("j-o-s-h@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("j-o--s-h@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("-jo-sh@gmail.com"));
+        assertFalse(BankAccount.isEmailValid("jo-sh-@gmail.com"));
+
+
+
     }
 
     @Test
-    void constructorTest() {
+    void constructorTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals("a@b.com", bankAccount.getEmail());
