@@ -31,7 +31,11 @@ public class BankAccount {
      * if amount negative make no changes to balance
      */
     public void withdraw(double amount) throws InsufficientFundsException {
-        balance -= amount;
+        if (amount < 0) return;
+        else if (amount <= balance) balance -= amount;
+        else{
+            throw new InsufficientFundsException("Amount must be less than or equal to account balance");
+        }
 
     }
 
@@ -51,16 +55,26 @@ public class BankAccount {
 
         if (period == -1) return false;
 
-        if (suffix.charAt(0) == '@') return false;
+        int pdCount = 0;
+        for (int i = 0; i < suffix.length(); i++){
+            if (suffix.charAt(i) == '@') return false;
+            else if (suffix.charAt(i) == '.') pdCount++;
+        }
+
+        if (pdCount != 1) return false;
 
         if (suffix.substring(period).length() < 3) return false;
 
         //check all
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '#') return false;
+            else if (email.charAt(i) == ' ') return false;
                 //two periods in a row
             else if (email.charAt(i) == '.') {
                 if (email.charAt(i + 1) == '.') return false;
+            }
+            else if (email.charAt(i) == '-') {
+                if (email.charAt(i + 1) == '-') return false;
             }
         }
 
