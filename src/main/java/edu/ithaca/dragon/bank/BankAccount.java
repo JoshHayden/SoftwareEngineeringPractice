@@ -51,7 +51,12 @@ public class BankAccount {
      * if amount negative or over two decimal points throw IllegalArgumentException
      */
     public void deposit(double amount) throws IllegalArgumentException {
-
+        if (!isAmountValid(amount)){
+            throw new IllegalArgumentException("Amount not valid");
+        }
+        else{
+            balance += amount;
+        }
 
     }
 
