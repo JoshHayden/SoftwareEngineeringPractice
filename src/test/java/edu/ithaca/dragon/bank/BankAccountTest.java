@@ -36,6 +36,9 @@ class BankAccountTest {
         bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(-300);
         assertEquals(200, bankAccount.getBalance());
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).withdraw(-30));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 20).withdraw(10.345));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 20).withdraw(40.168)); //Want to throw illegal argument rather than insufficientfunds when both are true
 
     }
 
@@ -83,6 +86,8 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance());
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -30));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50.123));
     }
 
     @Test
