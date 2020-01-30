@@ -47,7 +47,7 @@ public class BankAccount {
     }
 
     /**
-     * @post increase the balance by amount if amount is non-negative and smaller than balance
+     * @post increase the balance by amount if amount is non-negative
      * if amount negative or over two decimal points throw IllegalArgumentException
      */
     public void deposit(double amount) throws IllegalArgumentException {
@@ -57,6 +57,16 @@ public class BankAccount {
         else{
             balance += amount;
         }
+
+    }
+
+    /**
+     * @post decrease the balance by amount if amount is non-negative and smaller than balance, increase the balance of target by amount
+     * if amount negative or over two decimal points throw IllegalArgumentException
+     * if amount is larger than balance throw InsufficientFundsException
+     */
+    public void transfer(double amount, BankAccount target) throws IllegalArgumentException, InsufficientFundsException {
+
 
     }
 

@@ -122,4 +122,30 @@ class BankAccountTest {
 
     }
 
+    @Test
+    void transferTest() throws IllegalArgumentException, InsufficientFundsException{
+        BankAccount sender = new BankAccount("a@b.com", 1000);
+        BankAccount reciever = new BankAccount("c@b.com", 0);
+        //Check basic transfer
+        sender.transfer(10, reciever);
+        assertEquals(990, sender.getBalance());
+        assertEquals(10, reciever.getBalance());
+        //Check transfer of 0
+        sender.transfer(0, reciever);
+        assertEquals(990, sender.getBalance());
+        assertEquals(10, reciever.getBalance());
+        //Check transfer with decimals
+        sender.transfer(50.45, reciever);
+        assertEquals(939.55, sender.getBalance());
+        assertEquals(60.45, reciever.getBalance());
+        //Check transfer with too many decimals
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 100).transfer(50.123, new BankAccount("c@d.com", 0)));
+        //Check transfer with negative amount
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 100).transfer(-30, new BankAccount("c@d.com", 0)));
+        //Check transfer of too much money
+        assertThrows(InsufficientFundsException.class, ()-> new BankAccount("a@b.com", 100).transfer(50.123, new BankAccount("c@d.com", 0)));
+        //Check that having  both errors throws Illegal Argument rather than Insufficient Funds
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).transfer(75.123, new BankAccount("c@d.com", 0)));
+    }
+
 }
