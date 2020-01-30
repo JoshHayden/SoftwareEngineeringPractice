@@ -143,7 +143,7 @@ class BankAccountTest {
         //Check transfer with negative amount
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 100).transfer(-30, new BankAccount("c@d.com", 0)));
         //Check transfer of too much money
-        assertThrows(InsufficientFundsException.class, ()-> new BankAccount("a@b.com", 100).transfer(50.123, new BankAccount("c@d.com", 0)));
+        assertThrows(InsufficientFundsException.class, ()-> new BankAccount("a@b.com", 100).transfer(150, new BankAccount("c@d.com", 0)));
         //Check that having  both errors throws Illegal Argument rather than Insufficient Funds
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).transfer(75.123, new BankAccount("c@d.com", 0)));
     }

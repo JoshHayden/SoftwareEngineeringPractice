@@ -67,7 +67,6 @@ public class BankAccount {
      */
     public void transfer(double amount, BankAccount target) throws IllegalArgumentException, InsufficientFundsException {
 
-
     }
 
 
