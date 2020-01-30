@@ -66,6 +66,8 @@ public class BankAccount {
      * if amount is larger than balance throw InsufficientFundsException
      */
     public void transfer(double amount, BankAccount target) throws IllegalArgumentException, InsufficientFundsException {
+        this.withdraw(amount);
+        target.deposit(amount);
 
     }
 
