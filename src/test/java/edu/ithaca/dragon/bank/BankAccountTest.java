@@ -99,4 +99,27 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(120.040)); //Decided that if the points over two decimal points are 0 to return true, easier with the toString method
     }
 
+    @Test
+    void depositTest() throws IllegalArgumentException{
+        //Checking for negative values
+        BankAccount bankAccount = new BankAccount("a@b.com", 0);
+        bankAccount.deposit(50);
+        assertEquals(50, bankAccount.getBalance());
+        bankAccount.deposit(0);
+        assertEquals(50, bankAccount.getBalance());
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).deposit(-0.01));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).deposit(-50));
+
+        //Checking for decimals
+        bankAccount = new BankAccount("a@b.com", 50);
+        bankAccount.deposit(0.01);
+        assertEquals(50.01, bankAccount.getBalance());
+        bankAccount.deposit(53.46);
+        assertEquals(103.47, bankAccount.getBalance());
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).deposit(53.014));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).deposit(0.001));
+
+
+    }
+
 }
