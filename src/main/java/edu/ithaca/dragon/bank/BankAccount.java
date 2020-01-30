@@ -86,6 +86,24 @@ public class BankAccount {
      * Returns false if amount is negative or has more than two decimal points, returns true otherwise
      */
     public static  boolean isAmountValid(double amount){
-        return false;
+        String amountAsString = Double.toString(amount);
+        System.out.println(amountAsString);
+        int postDecimal = 0;
+        if (amountAsString.contains(".")){
+            postDecimal = amountAsString.length() - amountAsString.indexOf(".") - 1;
+
+        }
+
+        if (amount < 0){
+            return false;
+        }
+        else if (postDecimal > 2){ //div[1] is the string after decimal
+            return false;
+        }
+
+        else {
+            return true;
+        }
+
     }
 }

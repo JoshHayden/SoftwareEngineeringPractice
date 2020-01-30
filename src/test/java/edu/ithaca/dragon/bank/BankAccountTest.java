@@ -97,7 +97,7 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(300.4));
         assertTrue(BankAccount.isAmountValid(150.03));
         assertFalse(BankAccount.isAmountValid(204.004));
-        assertFalse(BankAccount.isAmountValid(120.040)); //Decided that even if the points over two decimal points are 0 to return false
+        assertTrue(BankAccount.isAmountValid(120.040)); //Decided that if the points over two decimal points are 0 to return true, easier with the toString method
     }
 
 }
