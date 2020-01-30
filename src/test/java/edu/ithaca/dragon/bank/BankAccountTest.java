@@ -29,14 +29,8 @@ class BankAccountTest {
         //Amount is greater than balance
         assertThrows(InsufficientFundsException.class, ()-> new BankAccount("a@b.com", 100).withdraw(101));
         //Amount is negative
-        bankAccount = new BankAccount("a@b.com", 300);
-        bankAccount.withdraw(-1);
-        assertEquals(300, bankAccount.getBalance());
-        //Amount is negative
-        bankAccount = new BankAccount("a@b.com", 200);
-        bankAccount.withdraw(-300);
-        assertEquals(200, bankAccount.getBalance());
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 50).withdraw(-30));
+        //Too many decimals
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 20).withdraw(10.345));
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 20).withdraw(40.168)); //Want to throw illegal argument rather than insufficientfunds when both are true
 

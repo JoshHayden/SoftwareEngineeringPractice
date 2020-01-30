@@ -9,11 +9,16 @@ public class BankAccount {
      * @throws IllegalArgumentException if email is invalid
      */
     public BankAccount(String email, double startingBalance) {
-        if (isEmailValid(email)) {
+        if (!isEmailValid(email)) {
+            throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
+        }
+        else if(!isAmountValid(startingBalance)){
+            throw new IllegalArgumentException("Starting balance not valid");
+        }
+
+        else {
             this.email = email;
             this.balance = startingBalance;
-        } else {
-            throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
         }
     }
 
@@ -31,7 +36,9 @@ public class BankAccount {
      * if amount negative make no changes to balance
      */
     public void withdraw(double amount) throws InsufficientFundsException {
-        if (amount < 0) return;
+        if (!isAmountValid(amount)){
+            throw new IllegalArgumentException("Amount not valid");
+        }
         else if (amount <= balance) balance -= amount;
         else{
             throw new InsufficientFundsException("Amount must be less than or equal to account balance");
@@ -87,7 +94,6 @@ public class BankAccount {
      */
     public static  boolean isAmountValid(double amount){
         String amountAsString = Double.toString(amount);
-        System.out.println(amountAsString);
         int postDecimal = 0;
         if (amountAsString.contains(".")){
             postDecimal = amountAsString.length() - amountAsString.indexOf(".") - 1;
